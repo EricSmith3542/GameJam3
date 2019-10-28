@@ -37,6 +37,12 @@ public class WormAI : MonoBehaviour
                 case AIState.idle:
                     break;
                 case AIState.chase:
+                    //Worm chases when player is on terrain
+                    if (TerrainPlayerCollision.GetPlayerTouchingTerrain() == true) { 
+                    
+                    
+                    }
+
                     break;
                 case AIState.tremor:
                     break;
