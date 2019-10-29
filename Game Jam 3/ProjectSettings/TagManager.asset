@@ -9,6 +9,7 @@ TagManager:
   - Tremor
   - WormBody
   - WormObject
+  - Boat
   layers:
   - Default
   - TransparentFX

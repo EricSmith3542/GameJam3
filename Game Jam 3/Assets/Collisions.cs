@@ -10,7 +10,7 @@ public class Collisions : MonoBehaviour
             SceneManager.LoadScene("Victory");
         }
 
-        if(other.tag == "Worm"){
+        if(other.tag == "WormBody"){
 
             SceneManager.LoadScene("Death Screen");
         }
