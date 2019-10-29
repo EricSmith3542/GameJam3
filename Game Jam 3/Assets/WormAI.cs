@@ -8,6 +8,8 @@ public class WormAI : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Animator anim;
     private GameObject player;
+    private GameObject tremorDirt, wormBody, wormObject;
+    private Renderer renderer;
 
     public enum AIState { idle, chase, tremor, attack }
 
@@ -24,7 +26,11 @@ public class WormAI : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        renderer = GetComponent<Renderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+        tremorDirt = GameObject.FindGameObjectWithTag("Tremor");
+        wormBody = GameObject.FindGameObjectWithTag("WormBody");
+        wormObject = GameObject.FindGameObjectWithTag("WormObject");
 
         StartCoroutine(Think());
     }
@@ -65,7 +71,7 @@ public class WormAI : MonoBehaviour
                     else
                     {
                         //Worm chases when player is on terrain
-                        Debug.Log("CHASE");
+                        Debug.Log("ROCK CHASE");
                         navMeshAgent.SetDestination(rockTarget.transform.position);
                         float dist = Vector3.Distance(rockTarget.transform.position, transform.position);
 
@@ -79,14 +85,38 @@ public class WormAI : MonoBehaviour
                 case AIState.tremor:
                     Debug.Log("TREMOR");
                     //Add tremor at current location
+                    navMeshAgent.isStopped = true;
+                    renderer.enabled = false;
+
+                    if(rockTarget == null)
+                    {
+                        tremorDirt.transform.position = player.transform.position;
+                    }
+                    else
+                    {
+                        tremorDirt.transform.position = rockTarget.transform.position;
+                    }
+                    tremorDirt.GetComponent<Renderer>().enabled = true;
+
                     yield return new WaitForSeconds(tremorPauseTime);
                     aiState = AIState.attack;
                     break;
                 case AIState.attack:
                     Debug.Log("ATTACK");
-                    //attack at tremor location
+
+                    wormObject.transform.position = tremorDirt.transform.position;
+                    wormBody.GetComponent<Renderer>().enabled = true;
+
+
                     rockTarget = null;
+
+                    yield return new WaitForSeconds(1f);
+
                     aiState = AIState.chase;
+                    tremorDirt.GetComponent<Renderer>().enabled = false;
+                    wormBody.GetComponent<Renderer>().enabled = false;
+                    renderer.enabled = true;
+                    navMeshAgent.isStopped = false;
                     break;
             }
             yield return new WaitForSeconds(1f);
