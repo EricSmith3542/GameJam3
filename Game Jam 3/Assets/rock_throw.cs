@@ -8,6 +8,8 @@ public class rock_throw : MonoBehaviour
     //gameObject Worm;
     //float velocity;
     //float upVelocity;
+    private Vector3 mOffset;
+    private float mZCoord;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,28 @@ public class rock_throw : MonoBehaviour
         //    this.gameObject.Transform.Velocity = velocity*(player.transform.foreward) + upVelocity*(player.transform.up);
         //}
     }
+
+    private void OnMouseDown()
+    {
+        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+
+        mOffset = gameObject.transform.position - GetMouseWorldPosition();
+    }
+
+    private void OnMouseDrag()
+    {
+        transform.position = GetMouseWorldPosition() + mOffset;
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mousePoint = Input.mousePosition;
+
+        mousePoint.z = mZCoord;
+
+        return Camera.main.ScreenToWorldPoint(mousePoint);
+    }
+
     void onCollision()//ground
     {
         //set worm's destination to here
