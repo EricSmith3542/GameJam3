@@ -25,6 +25,11 @@ public class TerrainPlayerCollision : MonoBehaviour
             playerTouchingTerrain = true;
             WormAI.aiState = WormAI.AIState.chase;
             print("Player entering terrain");
+
+            if(hit.gameObject.tag == "Rock")
+            {
+                hit.gameObject;
+            }
         }
 
     }

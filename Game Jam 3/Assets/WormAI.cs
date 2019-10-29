@@ -12,7 +12,7 @@ public class WormAI : MonoBehaviour
     public enum AIState { idle, chase, tremor, attack }
 
     public static AIState aiState = AIState.idle;
-    public static bool backToIdle = true;
+    public static GameObject rockTarget;
     public float speed = 5;
     public float tremorPauseTime = 1;
     public float walkRadius = 5;
@@ -50,14 +50,29 @@ public class WormAI : MonoBehaviour
                     navMeshAgent.SetDestination(finalPosition);
                     break;
                 case AIState.chase:
-                    //Worm chases when player is on terrain
-                    Debug.Log("CHASE");
-                    navMeshAgent.SetDestination(player.transform.position);
-                    float dist = Vector3.Distance(player.transform.position, transform.position);
-
-                    if(dist < attackRange)
+                    if(rockTarget == null)
                     {
-                        aiState = AIState.tremor;
+                        //Worm chases when player is on terrain
+                        Debug.Log("CHASE");
+                        navMeshAgent.SetDestination(player.transform.position);
+                        float dist = Vector3.Distance(player.transform.position, transform.position);
+
+                        if (dist < attackRange)
+                        {
+                            aiState = AIState.tremor;
+                        }
+                    }
+                    else
+                    {
+                        //Worm chases when player is on terrain
+                        Debug.Log("CHASE");
+                        navMeshAgent.SetDestination(rockTarget.transform.position);
+                        float dist = Vector3.Distance(rockTarget.transform.position, transform.position);
+
+                        if (dist < attackRange)
+                        {
+                            aiState = AIState.tremor;
+                        }
                     }
 
                     break;
@@ -70,6 +85,7 @@ public class WormAI : MonoBehaviour
                 case AIState.attack:
                     Debug.Log("ATTACK");
                     //attack at tremor location
+                    rockTarget = null;
                     aiState = AIState.chase;
                     break;
             }
