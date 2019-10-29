@@ -10,6 +10,7 @@ public class WormAI : MonoBehaviour
     private GameObject player;
     private GameObject tremorDirt, wormBody, wormObject;
     private Renderer renderer;
+    private AudioSource audio;
 
     public enum AIState { idle, chase, tremor, attack }
 
@@ -27,6 +28,7 @@ public class WormAI : MonoBehaviour
         anim = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         renderer = GetComponent<Renderer>();
+        audio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         tremorDirt = GameObject.FindGameObjectWithTag("Tremor");
         wormBody = GameObject.FindGameObjectWithTag("WormBody");
@@ -110,6 +112,7 @@ public class WormAI : MonoBehaviour
 
                     rockTarget = null;
 
+                    audio.Play(0);
                     yield return new WaitForSeconds(1f);
 
                     aiState = AIState.chase;

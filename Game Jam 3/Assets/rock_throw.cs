@@ -10,10 +10,11 @@ public class rock_throw : MonoBehaviour
     //float upVelocity;
     private Vector3 mOffset;
     private float mZCoord;
+    private Rigidbody rigidbody;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -35,11 +36,18 @@ public class rock_throw : MonoBehaviour
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
 
         mOffset = gameObject.transform.position - GetMouseWorldPosition();
+
+        rigidbody.useGravity = true;
     }
 
     private void OnMouseDrag()
     {
         transform.position = GetMouseWorldPosition() + mOffset;
+    }
+
+    private void OnMouseUp()
+    {
+        TerrainPlayerCollision.wasThrown = true;
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -53,6 +61,5 @@ public class rock_throw : MonoBehaviour
 
     void onCollision()//ground
     {
-        //set worm's destination to here
     }
 }

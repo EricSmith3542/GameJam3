@@ -7,6 +7,7 @@ using UnityEngine;
 public class TerrainPlayerCollision : MonoBehaviour
 {
     static bool playerTouchingTerrain = false;
+    public static bool wasThrown = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,16 +21,17 @@ public class TerrainPlayerCollision : MonoBehaviour
     }
     void OnCollisionEnter(Collision hit)
     {
-        if (hit.gameObject.tag == "Player" || hit.gameObject.tag == "Rock")
+        if (hit.gameObject.tag == "Player" || (hit.gameObject.tag == "Rock" && wasThrown))
         {
+            if (hit.gameObject.tag == "Rock")
+            {
+                WormAI.rockTarget = hit.gameObject;
+                wasThrown = false;
+            }
+
             playerTouchingTerrain = true;
             WormAI.aiState = WormAI.AIState.chase;
             print("Player entering terrain");
-
-            if(hit.gameObject.tag == "Rock")
-            {
-                WormAI.rockTarget = hit.gameObject;
-            }
         }
 
     }
