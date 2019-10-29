@@ -28,7 +28,7 @@ public class TerrainPlayerCollision : MonoBehaviour
 
             if(hit.gameObject.tag == "Rock")
             {
-                hit.gameObject;
+                WormAI.rockTarget = hit.gameObject;
             }
         }
 
