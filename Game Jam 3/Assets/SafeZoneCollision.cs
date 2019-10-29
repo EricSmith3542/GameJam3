@@ -21,7 +21,6 @@ public class SafeZoneCollision : MonoBehaviour
         if (hit.gameObject.tag == "Player")
         {
             WormAI.aiState = WormAI.AIState.idle;
-            WormAI.backToIdle = true;
             print("Player entering safe zone");
         }
 
