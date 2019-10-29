@@ -20,9 +20,10 @@ public class TerrainPlayerCollision : MonoBehaviour
     }
     void OnCollisionEnter(Collision hit)
     {
-        if (hit.gameObject.tag == "Player")
+        if (hit.gameObject.tag == "Player" || hit.gameObject.tag == "Rock")
         {
             playerTouchingTerrain = true;
+            WormAI.aiState = WormAI.AIState.chase;
             print("Player entering terrain");
         }
 
